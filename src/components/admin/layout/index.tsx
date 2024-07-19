@@ -8,18 +8,18 @@ import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import DialogCreatePostComponent from "@/components/admin/dialog/dialogCreatePost";
 import DialogUpdatePostComponent from "@/components/admin/dialog/dialogUpdatePost";
 import DialogDeletePostComponent from "@/components/admin/dialog/dialogDeletePost";
-// import { useTokenStore } from "@/store/auth/token";
+import { useTokenStore } from "@/store/auth/token";
 
 const LayoutAdminComponent = ({ children }: any) => {
-  // const setToken = useTokenStore((state) => state.update);
+  const setToken = useTokenStore((state) => state.update);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     setToken(token);
-  //   }
-  // })
-  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  });
+
   return (
     <div className="h-screen bg-[#BBC2C0]">
       <div>

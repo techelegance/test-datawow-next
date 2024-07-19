@@ -2,7 +2,7 @@
 import React from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTokenStore } from "@/store/auth/token";
 import { useRouter } from "next/navigation";
 
@@ -20,13 +20,13 @@ const Login = () => {
     control,
     formState: { errors },
   } = useForm();
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit = async (data: any) => {
     await axios
       .post("http://localhost:3000/auth/login", data)
       .then((res) => {
         localStorage.setItem("token", res?.data?.access_token);
         setToken(res?.data?.access_token);
-        toast.success('Login Success');
+        toast.success("Login Success");
         return router.push("/admin/home", { scroll: false });
       })
       .catch((err) => {
