@@ -14,14 +14,13 @@ const BoardPage = () => {
   const onBack = () => router.back();
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["repoData"],
+    queryKey: ["PostDataByUserID", params?.id],
     queryFn: () =>
       fetch(`http://localhost:3000/post/${params?.id}`).then((res) =>
         res.json()
       ),
   });
 
-  console.log({ data });
 
   return (
     <LayoutAdminComponent>
@@ -52,7 +51,7 @@ const BoardPage = () => {
           </div>
           <div className="mt-5 overflow-y-auto grid gap-y-3">
             {data?.comments?.map((data: any) => (
-              <CommentComponent key={data.id} />
+              <CommentComponent key={data.id} name={data?.user?.name} comment={data?.message} date={data?.createdAt}   />
             ))}
           </div>
         </section>

@@ -10,7 +10,7 @@ type Action = {
 };
 
 // Create your store, which includes both state and (optionally) actions
-export const useDialogCreatePostStore = create<State & Action>((set) => ({
+export const useDialogUpdatePostStore = create<State & Action>((set) => ({
   data: false,
   update: (data) => set(() => ({ data })),
   remove: () => set(() => ({ data: false })),

@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const BoardPage = () => {
   const { isLoading, error, data } = useQuery({
-    queryKey: ["repoData"],
+    queryKey: ["PostData"],
     queryFn: () =>
       fetch("http://localhost:3000/post").then((res) => res.json()),
   });
