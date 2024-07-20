@@ -11,6 +11,7 @@ import { useProfileStore } from "@/store/auth/profile";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
+import clsx from "clsx";
 
 const DialogUpdatePostComponent = ({ refetch }: any) => {
   const dialogUpdate = useDialogUpdatePostStore((state) => state.data);
@@ -47,6 +48,7 @@ const DialogUpdatePostComponent = ({ refetch }: any) => {
     watch,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data: any) => {
@@ -61,6 +63,7 @@ const DialogUpdatePostComponent = ({ refetch }: any) => {
       .then((res) => {
         toast.success("Update Post Success");
         refetch();
+        reset();
         return closeDialogUpdate();
       })
       .catch((err) => {
@@ -107,15 +110,27 @@ const DialogUpdatePostComponent = ({ refetch }: any) => {
                   render={({ field }) => (
                     <Listbox {...field}>
                       <div className="relative mt-1">
-                        <Listbox.Button className="relative w-full md:w-auto cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none border border-[#49A569] sm:text-sm">
-                          <span className="block truncate text-[#49A569] md:text-left text-center">
+                        <Listbox.Button
+                          className={clsx({
+                            "relative w-full md:w-auto cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none border border-[#49A569] sm:text-sm":
+                              true,
+                            "border-red-500": errors?.group,
+                          })}
+                        >
+                          <span
+                            className={clsx({
+                              "block truncate text-[#49A569] md:text-left text-center":
+                                true,
+                              "text-red-500": errors?.group,
+                            })}
+                          >
                             {watch("group")?.title
                               ? watch("group")?.title
-                              : "Select a person"}
+                              : "Choose a community"}
                           </span>
                           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                             <ChevronDownIcon
-                              className="h-5 w-5 text-[#49A569]"
+                              className={clsx({"h-5 w-5 text-[#49A569]":true,"text-red-500":errors?.group})}
                               aria-hidden="true"
                             />
                           </span>
@@ -167,11 +182,6 @@ const DialogUpdatePostComponent = ({ refetch }: any) => {
                     </Listbox>
                   )}
                 />
-                {errors?.group && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors?.group?.message}
-                  </p>
-                )}
               </div>
               <div className="mt-3">
                 <div>
@@ -180,13 +190,12 @@ const DialogUpdatePostComponent = ({ refetch }: any) => {
                       required: { value: true, message: "Please enter title" },
                     })}
                     placeholder="Title"
-                    className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm focus:outline-none"
+                    className={clsx({
+                      "relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm focus:outline-none":
+                        true,
+                      "border-red-500": errors?.title,
+                    })}
                   />
-                  {errors?.title && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors?.title?.message}
-                    </p>
-                  )}
                 </div>
                 <div className="mt-3">
                   <textarea
@@ -198,13 +207,12 @@ const DialogUpdatePostComponent = ({ refetch }: any) => {
                     })}
                     placeholder="What’s on your mind..."
                     rows={8}
-                    className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm focus:outline-none"
+                    className={clsx({
+                      "relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm focus:outline-none":
+                        true,
+                      "border-red-500": errors?.content,
+                    })}
                   />
-                  {errors?.title && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors?.title?.message}
-                    </p>
-                  )}
                 </div>
                 <div className="mt-3 md:flex md:flex-row-reverse grid gap-3">
                   <ButtonComponent type="submit" style="solid">

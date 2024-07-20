@@ -4,9 +4,10 @@ import { useTokenStore } from "@/store/auth/token";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useProfileStore } from "@/store/auth/profile";
-
+import { useRouter } from "next/navigation";
 
 const HeaderComponent = () => {
+  const router = useRouter();
   const token = useTokenStore((state) => state.data);
   const setProfile = useProfileStore((state) => state.update);
   const profileData = useProfileStore((state) => state.data);
@@ -44,7 +45,7 @@ const HeaderComponent = () => {
             <span className="text-white text-xs">{profileData?.name}</span>
           </div>
         ) : (
-          <button className="bg-[#49A569] hover:bg-green-600 py-1 px-3 rounded-lg text-white text-xs md:block hidden">
+          <button onClick={() => router.push("/")} className="bg-[#49A569] hover:bg-green-600 py-1 px-3 rounded-lg text-white text-xs md:block hidden">
             Sign In
           </button>
         )}

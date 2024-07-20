@@ -13,7 +13,6 @@ const BoardPage = () => {
       fetch("http://localhost:3000/post").then((res) => res.json()),
   });
 
-
   return (
     <LayoutAdminComponent>
       <BlogComponent navigate data={data} />

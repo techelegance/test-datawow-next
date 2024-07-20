@@ -3,9 +3,11 @@ import { HomeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import { useProfileStore } from "@/store/auth/profile";
 
 const NavbarComponent = () => {
   const pathname = usePathname();
+  const profile = useProfileStore((state) => state.data);
 
   return (
     <nav className="w-[300px] overflow-y-auto px-5 py-7 hidden md:block">
@@ -24,7 +26,7 @@ const NavbarComponent = () => {
           </Link>
         </li>
         <li>
-          <Link href="/admin/out-blog">
+          <Link href={profile ? "/admin/out-blog" : "/"}>
             <div
               className={clsx({
                 "flex gap-x-2 items-center": true,

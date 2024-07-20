@@ -19,13 +19,14 @@ const BlogCardComponent = ({
   group,
   name,
   date,
-  id
+  id,
+  search,
 }: any) => {
   const router = useRouter();
   const setDialogUpdate = useDialogUpdatePostStore((state) => state.update);
   const setDialogDelete = useDialogDeletePostStore((state) => state.update);
 
-const handleUpdate = () => {
+  const handleUpdate = () => {
     setDialogUpdate({ id, open: true });
   };
 
@@ -49,10 +50,16 @@ const handleUpdate = () => {
         </div>
         {editor && (
           <div className="text-right text-[#2B5F44] flex">
-            <button onClick={handleUpdate} className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full">
+            <button
+              onClick={handleUpdate}
+              className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full"
+            >
               <PencilIcon className="size-3" />
             </button>
-            <button onClick={handleDelete} className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full">
+            <button
+              onClick={handleDelete}
+              className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full"
+            >
               <TrashIcon className="size-3" />
             </button>
           </div>
@@ -64,7 +71,22 @@ const handleUpdate = () => {
         </span>
       </div>
       <div className="mt-3">
-        <h3 className="font-medium text-gray-800">{title}</h3>
+        <h3 className="font-medium text-gray-800">
+          {/* {title} */}
+          {title &&
+            title.split(search).map((item: string, index: number) =>
+              title.split(search).length !== index + 1 ? (
+                <span key={index}>
+                  {item}
+                  <span className="bg-[#C5A365]/50 text-black/50">
+                    {search}
+                  </span>
+                </span>
+              ) : (
+                <span>{item}</span>
+              )
+            )}
+        </h3>
         <p className="text-xs line-clamp-2 text-gray-800">{detail}</p>
 
         <div className="mt-5 text-[#939494] text-xs flex gap-x-2 items-center">

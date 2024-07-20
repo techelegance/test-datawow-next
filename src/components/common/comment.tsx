@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { formatDistance } from "date-fns";
 
 const CommentComponent = ({
   name,
@@ -19,7 +20,11 @@ const CommentComponent = ({
           className="w-7 h-7 rounded-full"
         />
         <span className="text-xs">{name}</span>
-        <span className="text-xs text-[#939494]">{date}</span>
+        <span className="text-xs text-[#939494]">
+          {formatDistance(date, new Date(), {
+            addSuffix: true,
+          })}
+        </span>
       </div>
       <div>
         <div className="text-xs ml-9 mt-2 text-[#191919]">{comment}</div>
