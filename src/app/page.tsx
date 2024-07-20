@@ -5,13 +5,11 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useTokenStore } from "@/store/auth/token";
 import { useRouter } from "next/navigation";
+import { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const router = useRouter();
   const setToken = useTokenStore((state) => state.update);
-  type Inputs = {
-    email: string;
-  };
 
   const {
     register,
@@ -36,6 +34,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Toaster />
       <div className="md:flex md:flex-row-reverse grid h-screen bg-[#243831]">
         <div className="bg-[#2B5F44] md:w-1/2 h-full md:h-full md:rounded-l-3xl rounded-b-3xl flex justify-center items-center">
           <div className="text-center">
