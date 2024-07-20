@@ -6,7 +6,7 @@ type State = {
 
 type Action = {
   update: (data: State["data"]) => void;
-  remove: (data: State["data"]) => void;
+  remove: () => void;
 };
 
 // Create your store, which includes both state and (optionally) actions

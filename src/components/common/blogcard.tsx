@@ -7,6 +7,8 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { useDialogUpdatePostStore } from "@/store/dialog/update-post";
+import { useDialogDeletePostStore } from "@/store/dialog/delete-post";
 
 const BlogCardComponent = ({
   title,
@@ -16,9 +18,20 @@ const BlogCardComponent = ({
   path,
   group,
   name,
-  date
+  date,
+  id
 }: any) => {
   const router = useRouter();
+  const setDialogUpdate = useDialogUpdatePostStore((state) => state.update);
+  const setDialogDelete = useDialogDeletePostStore((state) => state.update);
+
+const handleUpdate = () => {
+    setDialogUpdate({ id, open: true });
+  };
+
+  const handleDelete = () => {
+    setDialogDelete({ id, open: true });
+  };
 
   return (
     <div
@@ -36,10 +49,10 @@ const BlogCardComponent = ({
         </div>
         {editor && (
           <div className="text-right text-[#2B5F44] flex">
-            <button className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full">
+            <button onClick={handleUpdate} className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full">
               <PencilIcon className="size-3" />
             </button>
-            <button className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full">
+            <button onClick={handleDelete} className="hover:text-white hover:bg-[#2B5F44] py-1 px-2 rounded-full">
               <TrashIcon className="size-3" />
             </button>
           </div>

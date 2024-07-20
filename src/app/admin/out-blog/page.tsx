@@ -4,21 +4,30 @@ import React, { useState } from "react";
 import LayoutAdminComponent from "@/components/admin/layout";
 import BlogComponent from "@/components/admin/blog";
 import { useQuery } from "@tanstack/react-query";
+import DialogCreatePostComponent from "@/components/admin/dialog/dialogCreatePost";
+import DialogDeletePostComponent from "@/components/admin/dialog/dialogDeletePost";
+import DialogUpdatePostComponent from "@/components/admin/dialog/dialogUpdatePost";
+import { useDialogUpdatePostStore } from "@/store/dialog/update-post";
+import axios from "axios";
+import { useProfileStore } from "@/store/auth/profile";
 
 const BoardPage = () => {
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: () =>
-      fetch('http://localhost:3000/post/author/1').then((res) =>
-        res.json(),
-      ),
-  })
+  const profile = useProfileStore((state) => state.data);
 
-  // console.log(data)
+  const { isLoading, error, data, refetch } = useQuery({
+    queryKey: ["authorDatabyUserID", profile?.id],
+    queryFn: () =>
+      axios
+        .get(`http://localhost:3000/post/author/${profile?.id}`)
+        .then((res) => res.data),
+  });
 
   return (
     <LayoutAdminComponent>
-      <BlogComponent editor={true} data={data}/>
+      <BlogComponent editor={true} data={data} isLoading={isLoading} />
+      <DialogCreatePostComponent refetch={refetch} />
+      <DialogUpdatePostComponent refetch={refetch} />
+      <DialogDeletePostComponent refetch={refetch} />
     </LayoutAdminComponent>
   );
 };

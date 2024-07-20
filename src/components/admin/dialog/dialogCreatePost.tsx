@@ -6,13 +6,17 @@ import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import ButtonComponent from "../../common/button";
 import { useDialogCreatePostStore } from "@/store/dialog/create-post";
 import { useQuery } from "@tanstack/react-query";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useTokenStore } from "@/store/auth/token";
+import { useProfileStore } from "@/store/auth/profile";
 
-const DialogCreatePostComponent = ({}: any) => {
+const DialogCreatePostComponent = ({ refetch }: any) => {
   const dialogCreate = useDialogCreatePostStore((state) => state.data);
   const closeDialogCreate = useDialogCreatePostStore((state) => state.remove);
+  const token = useTokenStore((state) => state.data);
+  const profile = useProfileStore((state) => state.data);
 
   const {
     isLoading,
@@ -24,34 +28,30 @@ const DialogCreatePostComponent = ({}: any) => {
       fetch(`http://localhost:3000/group`).then((res) => res.json()),
   });
 
-  type Inputs = {
-    group: any;
-    title: string;
-    content: string;
-  };
   const {
     register,
     handleSubmit,
     watch,
     control,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const fetchData = async () => {
-      const response = await axios
-        .post("http://localhost:3000/post", data)
-        .then((res) => {
-          return res;
-        });
-
-      return response;
-    };
-    const callFunction = fetchData();
-    toast.promise(callFunction, {
-      loading: <b>Sending...</b>,
-      success: <b>Sent Successfully!</b>,
-      error: <b>Could not send data.</b>,
-    });
+  } = useForm();
+  const onSubmit = async (data: any) => {
+    const { title, content, group } = data;
+    data = { title, content, groupId: group.id, authorId: profile?.id };
+    await axios
+      .post("http://localhost:3000/post", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Create Post Success");
+        refetch();
+        return closeDialogCreate();
+      })
+      .catch((err) => {
+        toast.error(err?.response?.statusText);
+      });
   };
 
   return (
@@ -78,6 +78,12 @@ const DialogCreatePostComponent = ({}: any) => {
                 <Controller
                   name="group"
                   control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Please select a group",
+                    },
+                  }}
                   render={({ field }) => (
                     <Listbox {...field}>
                       <div className="relative mt-1">
@@ -141,29 +147,47 @@ const DialogCreatePostComponent = ({}: any) => {
                     </Listbox>
                   )}
                 />
+                {errors?.group && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors?.group?.message}
+                  </p>
+                )}
               </div>
               <div className="mt-3">
                 <div>
                   <input
-                    {...register("title")}
+                    {...register("title", {
+                      required: { value: true, message: "Please enter title" },
+                    })}
                     placeholder="Title"
-                    className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                    className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm focus:outline-none"
                   />
+                  {errors?.title && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors?.title?.message}
+                    </p>
+                  )}
                 </div>
                 <div className="mt-3">
                   <textarea
-                    {...register("content")}
+                    {...register("content", {
+                      required: {
+                        value: true,
+                        message: "Please enter content",
+                      },
+                    })}
                     placeholder="What’s on your mind..."
                     rows={8}
-                    className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                    className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm focus:outline-none"
                   />
+                  {errors?.title && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors?.title?.message}
+                    </p>
+                  )}
                 </div>
                 <div className="mt-3 md:flex md:flex-row-reverse grid gap-3">
-                  <ButtonComponent
-                    type="submit"
-                    onClick={closeDialogCreate}
-                    style="solid"
-                  >
+                  <ButtonComponent type="submit" style="solid">
                     Post
                   </ButtonComponent>
                   <ButtonComponent

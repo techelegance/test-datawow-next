@@ -1,20 +1,36 @@
 import React, { Fragment } from "react";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import ButtonComponent from "../../common/button";
 import { useDialogDeletePostStore } from "@/store/dialog/delete-post";
 import clsx from "clsx";
+import axios from "axios";
+import { useTokenStore } from "@/store/auth/token";
+import toast from "react-hot-toast";
 
-const DialogDeletePostComponent = ({}: any) => {
+const DialogDeletePostComponent = ({ refetch }: any) => {
   const dialogDelete = useDialogDeletePostStore((state) => state.data);
   const closeDialogDelete = useDialogDeletePostStore((state) => state.remove);
-  const [selected, setSelected] = useState<any>();
+  const token = useTokenStore((state) => state.data);
+
+  const onSubmit = async () => {
+    await axios
+      .delete(`http://localhost:3000/post/${dialogDelete?.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Delete Post Success");
+        refetch();
+        return closeDialogDelete();
+      })
+      .catch((err) => {
+        toast.error(err?.response?.statusText);
+      });
+  };
 
   return (
     <Dialog
-      open={dialogDelete}
+      open={dialogDelete?.open}
       as="div"
       className="relative z-10 focus:outline-none"
       onClose={closeDialogDelete}
@@ -36,7 +52,8 @@ const DialogDeletePostComponent = ({}: any) => {
             <div className="mt-3">
               <div className="mt-3 md:flex md:flex-row-reverse grid gap-3">
                 <button
-                  type="button"
+                  type="submit"
+                  onClick={onSubmit}
                   className={clsx({
                     "py-1 px-4 rounded-lg w-full": true,
 
@@ -48,6 +65,7 @@ const DialogDeletePostComponent = ({}: any) => {
                 </button>
                 <button
                   type="button"
+                  onClick={closeDialogDelete}
                   className="py-1 px-4 rounded-lg w-full border text-[#5B5B5B]"
                 >
                   <span className="text-sm">Cancel</span>

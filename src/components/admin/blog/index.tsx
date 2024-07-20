@@ -2,10 +2,14 @@
 
 import React, { useState } from "react";
 import BlogCardComponent from "@/components/common/blogcard";
-import SearchComponent from "@/components/common/search";
-import dayjs from "dayjs";
+import SearchComponent from "@/components/common/search";;
 
-const BlogComponent = ({ editor = false, navigate = false, data = [] }) => {
+const BlogComponent = ({
+  editor = false,
+  navigate = false,
+  isLoading = false,
+  data = [],
+}) => {
   return (
     <main className="md:w-3/4 w-full h-full py-10 pr-52">
       <SearchComponent />
@@ -22,6 +26,7 @@ const BlogComponent = ({ editor = false, navigate = false, data = [] }) => {
                   editor={editor}
                   group={item?.group?.title}
                   name={item?.author?.name}
+                  id={item?.id}
                   // date={item?.createdAt}
                 />
               </div>
