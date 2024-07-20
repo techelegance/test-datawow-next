@@ -13,7 +13,6 @@ const BlogComponent = ({
 }) => {
   const [search, setSearch] = useState<string>("");
   const [group, setGroup] = useState<any>();
-  // console.log({ group });
   return (
     <main className="md:w-3/4 w-full h-full py-10 md:pr-52 px-2">
       <SearchComponent
@@ -26,7 +25,7 @@ const BlogComponent = ({
           data
             ?.filter((item: any) =>
               group ? item?.group?.title === group?.title : true
-            )
+            ).reverse()
             .map((item: any, index: number) => (
               <div key={index}>
                 <div className="px-4">

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import LayoutAdminComponent from "@/components/admin/layout";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import BlogCardComponent from "@/components/common/blogcard";
 import CommentComponent from "@/components/common/comment";
 import { useRouter, useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -27,6 +26,7 @@ const BoardPage = () => {
   const [dialogComment, setDialogComment] = useState(false);
   const [openComment, setOpenComment] = useState(false);
   const [date, setDate] = useState<any>(null);
+  const [comment, setComment] = useState<any>([]);
 
   const openDialogComment = () => {
     setDialogComment(true);
@@ -43,6 +43,16 @@ const BoardPage = () => {
       ),
   });
 
+  const compare = (a: any, b: any) => {
+    if (a.createdAt > b.createdAt) {
+      return -1;
+    }
+    if (a.createdAt < b.createdAt) {
+      return 1;
+    }
+    return 0;
+  };
+
   useEffect(() => {
     if (data) {
       const dateAgo = new Date(data?.createdAt);
@@ -50,6 +60,7 @@ const BoardPage = () => {
         addSuffix: true,
       });
       setDate(formateDateAgo);
+      setComment(data?.comments.sort(compare));
     }
   }, [data]);
 
@@ -89,7 +100,7 @@ const BoardPage = () => {
   return (
     <LayoutAdminComponent>
       <main className="md:w-full w-full bg-white h-screen overflow-y-auto">
-        <section className="pt-12 md:pl-32 md:pr-52">
+        <section className="pt-10 md:pl-32 md:pr-52">
           <div className="px-5">
             <span>
               <button
@@ -99,7 +110,7 @@ const BoardPage = () => {
                 <ArrowLeftIcon className="size-5 " />
               </button>
             </span>
-            <div className="mt-3">
+            <div className="mt-7">
               <div>
                 <div className="flex justify-between">
                   <div className="flex items-center gap-x-2">
@@ -235,8 +246,8 @@ const BoardPage = () => {
                 </div>
               </Dialog>
             </div>
-            <div className="mt-5 overflow-y-auto grid gap-y-3">
-              {data?.comments?.map((data: any, index: number) => (
+            <div className="mt-5 overflow-y-auto grid gap-y-3 pb-12">
+              {comment.map((data: any, index: number) => (
                 <CommentComponent
                   key={index}
                   name={data?.user?.name}

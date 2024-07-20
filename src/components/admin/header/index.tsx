@@ -5,12 +5,15 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useProfileStore } from "@/store/auth/profile";
 import { useRouter } from "next/navigation";
+import { useNavbarMoblieStore } from "@/store/navbar/moblie";
 
 const HeaderComponent = () => {
   const router = useRouter();
   const token = useTokenStore((state) => state.data);
   const setProfile = useProfileStore((state) => state.update);
   const profileData = useProfileStore((state) => state.data);
+  const setNavbar = useNavbarMoblieStore((state) => state.update);
+
   const {
     isLoading,
     error,
@@ -27,8 +30,7 @@ const HeaderComponent = () => {
 
   useEffect(() => {
     setProfile(profile?.data);
-  }, [profile])
-  
+  }, [profile]);
 
   return (
     <header className="bg-[#243831] grid grid-cols-2 px-5 py-2">
@@ -45,11 +47,16 @@ const HeaderComponent = () => {
             <span className="text-white text-xs">{profileData?.name}</span>
           </div>
         ) : (
-          <button onClick={() => router.push("/")} className="bg-[#49A569] hover:bg-green-600 py-1 px-3 rounded-lg text-white text-xs md:block hidden">
+          <button
+            onClick={() => router.push("/")}
+            className="bg-[#49A569] hover:bg-green-600 py-1 px-3 rounded-lg text-white text-xs md:block hidden"
+          >
             Sign In
           </button>
         )}
-        <Bars3Icon className="size-7 text-white md:hidden block" />
+        <button onClick={() => setNavbar(true)}>
+          <Bars3Icon className="size-7 text-white md:hidden block" />
+        </button>
       </div>
     </header>
   );
