@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+<h3>บอกขั้นตอนการติดตั้งหลังจาก clone git hub</h3>
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+#install package
+
+#ติดตั้ง package ไปที่ node_modules
+yarn 
+#หรือ
+npm i
+
+#สร้างโฟลเดอร์ .next เพื่อเก็บไฟล์แคช HTML, CSS และ JavaScript
+yarn build
+
+#รันไฟล์แคช
+yarn start 
 ```
+ 
+<h3>libraries หรือ package ที่ได้ติดตั้งเพิ่มเติม</h3>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+@headlessui/react #เป็น UI components ใช้งานง่ายเหมาะกับ ออกแบบมาเพื่อใช้กับ Tailwind CSS
+@heroicons/react #เป็นชุด Icon SVG สามารถปรับแต่งผ่าน className ได้ง่าย
+@tanstack/react-query #สำหรับจัดการ แคช และซิงค์ข้อมูลสามารถ get api ไปเก็บแคชได้ง่ายและสามาถนำสถานะ loading , error ไปใช้ทำ ui ต่อได้
+axios #สื่อสารกับ API โดยใช้ HTTP requests
+date-fns #สำหรับจัดการวันที่และเวลา
+Zustand #ใช้จัดการ goble state ใช้งานง่ายกว่า Redux เล็กกว่า เร็วกว่า และสามารถลองรับ React hooks ได้ด้วย 
+#ใช้ในการจัดการ form ช่วยให้การสร้างฟอร์มง่ายขึ้น รวดเร็วขึ้น และมีประสิทธิภาพมากขึ้นเช็ค Validate ง่ายใช้กับ UI Framwork อย่าง MUI และ Component อื่นๆได้ด้วย
+```
