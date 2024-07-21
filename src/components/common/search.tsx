@@ -47,10 +47,10 @@ const SearchComponent = ({
         </div>
       ) : (
         <>
-          <div className="md:hidden block" onClick={() => setOpenSearch(true)}>
+          <div className="lg:hidden block" onClick={() => setOpenSearch(true)}>
             <MagnifyingGlassIcon className="size-5 text-[#5B5B5B]" />
           </div>
-          <div className="md:col-span-3 items-center gap-x-2 border border-white rounded-lg px-4 md:flex hidden">
+          <div className="lg:col-span-3 items-center gap-x-2 border border-white rounded-lg px-4 lg:flex hidden">
             <MagnifyingGlassIcon className="size-5 text-[#5B5B5B]" />
             <input
               className="bg-[#BBC2C0] placeholder:text-[#5B5B5B] placeholder:font-light h-8 w-full focus:outline-none"
@@ -58,11 +58,11 @@ const SearchComponent = ({
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="text-center md:col-span-1 col-span-2">
+          <div className="text-center lg:col-span-1 col-span-2">
             <Listbox onChange={(e) => setGroup(e)}>
               <div className="relative mt-1">
-                <Listbox.Button className="relative w-full md:w-auto cursor-pointer py-2 pl-3 pr-10 text-left focus:outline-none sm:text-sm">
-                  <span className="block truncate text-black font-medium md:text-left text-center">
+                <Listbox.Button className="relative w-full lg:w-auto cursor-pointer py-2 pl-3 pr-10 text-left focus:outline-none sm:text-sm">
+                  <span className="block truncate text-black font-medium lg:text-left text-center">
                     Community
                   </span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -116,8 +116,9 @@ const SearchComponent = ({
               </div>
             </Listbox>
           </div>
-          <div className="text-right md:col-span-1 col-span-2">
+          <div className="text-right lg:col-span-1 col-span-2">
             <ButtonComponent
+              id="btn-create-post"
               type="button"
               style="solid"
               onClick={() =>
