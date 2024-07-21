@@ -112,6 +112,8 @@ const DialogCreatePostComponent = ({ refetch }: any) => {
                         <Listbox {...field}>
                           <div className="relative mt-1">
                             <Listbox.Button
+                              type="button"
+                              id="listbox-btn-group"
                               className={clsx({
                                 "relative w-full md:w-auto cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none border border-[#49A569] sm:text-sm":
                                   true,
@@ -149,6 +151,7 @@ const DialogCreatePostComponent = ({ refetch }: any) => {
                                 {group &&
                                   group?.map((item: any, index: number) => (
                                     <Listbox.Option
+                                      id={`listbox-option-${index}`}
                                       key={index}
                                       className={({ active }) =>
                                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
@@ -192,6 +195,7 @@ const DialogCreatePostComponent = ({ refetch }: any) => {
                   <div className="mt-3">
                     <div>
                       <input
+                        id="input-create-title"
                         {...register("title", {
                           required: {
                             value: true,
@@ -208,6 +212,7 @@ const DialogCreatePostComponent = ({ refetch }: any) => {
                     </div>
                     <div className="mt-3">
                       <textarea
+                        id="input-create-content"
                         {...register("content", {
                           required: {
                             value: true,

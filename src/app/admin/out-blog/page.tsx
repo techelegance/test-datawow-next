@@ -9,17 +9,9 @@ import DialogDeletePostComponent from "@/components/admin/dialog/dialogDeletePos
 import DialogUpdatePostComponent from "@/components/admin/dialog/dialogUpdatePost";
 import axios from "axios";
 import { useProfileStore } from "@/store/auth/profile";
-import { useRouter } from "next/navigation";
 
-const BoardPage = () => {
-  const router = useRouter();
+const OutBlogPage = () => {
   const profile = useProfileStore((state) => state.data);
-
-  useEffect(() => {
-    if (!profile) {
-      router.push("/");
-    }
-  }, [profile]);
 
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ["authorDatabyUserID", profile?.id],
@@ -39,4 +31,4 @@ const BoardPage = () => {
   );
 };
 
-export default BoardPage;
+export default OutBlogPage;
